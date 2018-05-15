@@ -145,12 +145,12 @@ def conv_embed(label, it_same, it_diff):
 
     return {"embedding":sphere, "loss":loss, "train":train}
 
-
+#create dataset where every image in a batch is of the same class
 dataset_same = tf.data.Dataset.from_tensor_slices(files).interleave(lambda x: tf.data.TFRecordDataset(x).repeat().batch(batch_size).map(lambda x: parse_example(x, batch_size, image_size)),
                                                                     cycle_length = len(files),
                                                                     block_length = 1
                                                                    )
-
+#create dataset where every image in a batch differs in class from every other image
 dataset_diff = tf.data.Dataset.from_tensor_slices(files).interleave(lambda x: tf.data.TFRecordDataset(x).repeat(),
                                                                     cycle_length = len(files),
                                                                     block_length = 1
